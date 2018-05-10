@@ -1,11 +1,8 @@
-import os
 import numpy as np
-from PIL import Image
 import six
 import json
 import cv2
 import glob
-from io import BytesIO
 import numpy as np
 from .datasets_base import datasets_base
 from chainer.links.model.vision.vgg import prepare

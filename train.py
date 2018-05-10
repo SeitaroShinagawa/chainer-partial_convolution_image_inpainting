@@ -99,7 +99,7 @@ def main():
 
     #test_dataset = horse2zebra_Dataset_train(flip=args.flip, resize_to=args.resize_to, crop_to=args.crop_to)
 
-    test_iter = chainer.iterators.SerialIterator(train_dataset, 4)
+    test_iter = chainer.iterators.SerialIterator(train_dataset, 8)
 
     # Set up a trainer
     updater = Updater(
@@ -137,10 +137,10 @@ def main():
     trainer.extend(extensions.PrintReport(log_keys), trigger=(20, 'iteration'))
     trainer.extend(extensions.ProgressBar(update_interval=50))
 
-    #trainer.extend(
-    #    evaluation(gen_g, gen_f, args.eval_folder, image_size=args.crop_to
-    #    ), trigger=(args.eval_interval ,'iteration')
-    #)
+    trainer.extend(
+        evaluation(model, args.eval_folder, image_size=args.crop_to
+        ), trigger=(args.eval_interval ,'iteration')
+    )
 
     # Run the training
     trainer.run()

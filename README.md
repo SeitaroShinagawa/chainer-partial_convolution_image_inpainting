@@ -11,10 +11,10 @@ Reproduction of Nvidia image inpainting paper "Image Inpainting for Irregular Ho
 <img src="imgs/iter_100000.jpg" alt="iter_100000.jpg" title="iter_100000.jpg" width="768" height="512">
 
 # Environment
-python3.5.3
-chainer4.0alpha  
-opencv (only for cv.imread, you can replace it with PIL)  
-PIL
+- python3.5.3  
+- chainer4.0alpha    
+- opencv (only for cv.imread, you can replace it with PIL)  
+- PIL  
 
 # How to try
 

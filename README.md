@@ -47,3 +47,7 @@ python train.py -g 0
 ```
 -g represents gpu option.(utilize gpu of No.0) 
 
+
+## Acknowledgement
+This repository utilizes the codes of following impressive repositories   
+- [chainer-cyclegan](https://github.com/Aixile/chainer-cyclegan)  

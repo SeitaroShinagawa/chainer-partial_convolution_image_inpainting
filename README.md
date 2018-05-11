@@ -1,15 +1,9 @@
 # chainer-partial_convolution_image_inpainting
 Reproduction of Nvidia image inpainting paper "Image Inpainting for Irregular Holes Using Partial Convolutions" https://arxiv.org/abs/1804.07723
 
-![fig1](imgs/iter_1000_Iout.jpg)
-![fig2](imgs/iter_1000_Icomp.jpg)
-![fig3](imgs/iter_1000_mask.jpg)
-![fig4](imgs/iter_10000_Iout.jpg)
-![fig5](imgs/iter_10000_Icomp.jpg)
-![fig6](imgs/iter_10000_Imask.jpg)
-![fig7](imgs/iter_100000_Iout.jpg)
-![fig8](imgs/iter_100000_Icomp.jpg)
-![fig9](imgs/iter_100000_Imask.jpg)
+<img src="imgs/iter_1000.jpg" alt="iter_1000.jpg" title="iter_1000.jpg" width="512" height="768">
+<img src="imgs/iter_10000.jpg" alt="iter_10000.jpg" title="iter_10000.jpg" width="512" height="768">
+<img src="imgs/iter_100000.jpg" alt="iter_100000.jpg" title="iter_100000.jpg" width="512" height="768">
 
 # Environment
 python3.5.3
@@ -20,7 +14,7 @@ PIL
 # How to try
 
 ## Download dataset (place2)
-[Place2http](//places2.csail.mit.edu/)  
+[Place2](http://places2.csail.mit.edu/)  
 
 ## Set dataset path
 

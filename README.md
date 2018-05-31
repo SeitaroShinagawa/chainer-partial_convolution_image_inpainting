@@ -53,6 +53,7 @@ Firstly, check [implementation FAQ](http://masc.cs.gmu.edu/wiki/partialconv)
 2. Masks are generated using random walk by generate_window.py
 3. To use chainer VGG pre-traied model, I re-scaled input of the model. See updater.vgg_extract. It includes cropping, so styleloss in outside of crop box is ignored.)
 4. Padding is to make scale of height and width input:output=2:1 in encoder stage.  
+5. I use chainer.functions.unpooling_2d for upsampling. (you can replace it with chainer.functions.upsampling_2d)   
 
 other differences:  
 - image_size=256x256 (original: 512x512)

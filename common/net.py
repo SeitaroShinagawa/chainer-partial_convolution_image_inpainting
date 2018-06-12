@@ -24,14 +24,12 @@ def add_noise(h, test, sigma=0.2):
 
 class PConv(chainer.Chain):
     def __init__(self, ch0, ch1, bn=True, sample='none-3', activation=F.relu, dropout=False, noise=False):
-        "Assuming biases are None"
         self.bn = bn
         self.activation = activation
         self.dropout = dropout
         self.sample = sample
         self.noise = noise
         layers = {}
-        #w = chainer.initializers.Normal(0.02)
         w = chainer.initializers.Normal(0.02)
         if sample=='down-5':
             layers['c'] = L.Convolution2D(ch0, ch1, 5, 2, 2, initialW=w)
@@ -54,7 +52,6 @@ class PConv(chainer.Chain):
         super(PConv, self).__init__(**layers)
 
     def __call__(self, x, mask):
-        #h = self.c(x) - self.b
         self.m.W.data = self.xp.array(self.maskW) #mask windows are set by 1
         h = self.c(x*mask) #(B,C,H,W)
         B,C,H,W = h.shape
@@ -70,11 +67,6 @@ class PConv(chainer.Chain):
         mask_new = Variable(mask_new)
         h = F.where(mask_new_b, h, Variable(self.xp.zeros(h.shape).astype("f"))) 
 
-        #elif self.sample=="up":
-        #    h = F.unpooling_2d(x, 2, 2, 0, cover_all=False)
-        #    h = self.c(h)
-        #else:
-        #    print("unknown sample method %s"%self.sample)
         if self.bn:
             h = self.batchnorm(h)
         if self.noise:

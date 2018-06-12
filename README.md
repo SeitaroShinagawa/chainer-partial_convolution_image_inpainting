@@ -25,9 +25,9 @@ Reproduction of Nvidia image inpainting paper "Image Inpainting for Irregular Ho
 
 Edit common/paths.py
 ```python
-train_place2 = "/yourpath/place2/data_256/"
-val_place2 = "/yourpath/place2/val_256/"
-test_place2 = "/yourpath/test_256/"
+train_place2 = "/yourpath/place2/data_256"
+val_place2 = "/yourpath/place2/val_256"
+test_place2 = "/yourpath/test_256"
 
 ```
 ## Preprocessing  
@@ -39,6 +39,10 @@ python generate_windows.py image_size generate_num
 "generate_num" indicates the number of masks to generate.  
 
 Default implementation uses image_size=256 and generate_num=1000.  
+```python
+#To try default setting
+python generate_windows.py 256 1000
+```
 Note that original paper uses 512x512 image and generate mask with different way. 
 
 ## Run training

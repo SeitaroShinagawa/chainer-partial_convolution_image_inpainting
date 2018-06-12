@@ -44,9 +44,6 @@ def main():
     parser.add_argument("--load_dataset", default='place2_train', help='load dataset')
     #parser.add_argument("--layer_n", type=int, default=7, help='number of layers')
 
-    parser.add_argument("--learning_rate_anneal", type=float, default=0, help='anneal the learning rate')
-    parser.add_argument("--learning_rate_anneal_interval", type=int, default=1000, help='time to anneal the learning')
-
     args = parser.parse_args()
     print(args)
 
@@ -78,8 +75,6 @@ def main():
 
     # Setup an optimizer
     def make_optimizer(model,name="Adam",learning_rate=0.0002):
-        #optimizer = chainer.optimizers.AdaDelta()
-        #optimizer = chainer.optimizers.SGD(lr=alpha)
         if name == "Adam":
             optimizer = chainer.optimizers.Adam(alpha=learning_rate,beta1=0.5)
         elif name == "SGD":
@@ -106,7 +101,6 @@ def main():
         models=(vgg, model),
         iterator={
             'main': train_iter,
-            #'dis' : train2_iter,
             'test': test_iter
             },
         optimizer={
@@ -120,15 +114,11 @@ def main():
             'lambda4': args.lambda4,
             'image_size' : args.crop_to,
             'eval_folder' : args.eval_folder,
-            #'learning_rate_anneal' : args.learning_rate_anneal,
-            #'learning_rate_anneal_interval' : args.learning_rate_anneal_interval,
             'dataset' : train_dataset
         })
 
-    model_save_interval = (4000, 'iteration')
+    model_save_interval = (10, 'iteration')
     trainer = training.Trainer(updater, (max_iter, 'iteration'), out=args.out)
-    #trainer.extend(extensions.snapshot_object(
-    #    gen_g, 'gen_g{.updater.iteration}.npz'), trigger=model_save_interval)
     trainer.extend(extensions.snapshot_object(
         model, 'model{.updater.iteration}.npz'), trigger=model_save_interval)
     

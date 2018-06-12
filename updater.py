@@ -91,18 +91,6 @@ class Updater(chainer.training.StandardUpdater):
         
         super(Updater, self).__init__(*args, **kwargs)
 
-    """
-    def save_images(self,img, w=2, h=3):
-        img = cuda.to_cpu(img)
-        img = img.reshape((w, h, 3, self._image_size, self._image_size))
-        img = img.transpose(0,1,3,4,2)
-        img = (img + 1) *127.5
-        img = np.clip(img, 0, 255)
-        img = img.astype(np.uint8)
-        img = img.reshape((w, h, self._image_size, self._image_size, 3)).transpose(0,2,1,3,4).reshape((w*self._image_size, h*self._image_size, 3))[:,:,::-1]
-        Image.fromarray(img).save(self._eval_foler+"/iter_"+str(self._iter)+".jpg")
-    """
-
     def update_core(self):
         xp = self.model.xp
         self._iter += 1
@@ -137,10 +125,6 @@ class Updater(chainer.training.StandardUpdater):
 
         opt_model = self.get_optimizer('model')
 
-        #if self._learning_rate_anneal > 0 and self._iter % self._learning_rate_anneal_interval == 0:
-        #    if opt_model.alpha > self._learning_rate_anneal:
-        #        opt_model.alpha -= self._learning_rate_anneal
-
         L_valid = F.mean_absolute_error(M*I_out,M*I_gt)
         L_hole = F.mean_absolute_error((1-M)*I_out,(1-M)*I_gt) 
         
@@ -151,10 +135,6 @@ class Updater(chainer.training.StandardUpdater):
 
         L_total = L_valid + self._lambda1 * L_hole + self._lambda2 * L_perceptual + \
                   self._lambda3 * L_style + self._lambda4 * L_tv
-        
-        #g = c.build_computational_graph([L_total])
-        #with open("graph.dot","w") as o:
-        #    o.write(g.dump())
         
         self.vgg.cleargrads()
         self.model.cleargrads()
@@ -167,16 +147,3 @@ class Updater(chainer.training.StandardUpdater):
         chainer.report({'L_style': L_style})
         chainer.report({'L_tv': L_tv})
 
-        #if self._iter%100 ==0:
-        #    #img = xp.zeros((6, 3, w_in, w_in)).astype("f")
-        #    img = xp.zeros((2, 3, w_in, w_in)).astype("f")
-        #    img[0, : ] = I_comp.data[0]
-        #    img[1, : ] = I_gt.data[0]
-        #    #img[2, : ] = I_comp.data[1]
-        #    #img[3, : ] = I_gt.data[1]
-        #    #img[4, : ] = I_comp.data[2]
-        #    #img[5, : ] = I.gt.data[2]
-        #    img = cuda.to_cpu(img)
-        #    #img = self._dataset.batch_postprocess_images(img, 3, 2)
-        #    img = self._dataset.batch_postprocess_images(img, 1, 2)
-        #    Image.fromarray(img).save(self._eval_foler+"/iter_"+str(self._iter)+".jpg")

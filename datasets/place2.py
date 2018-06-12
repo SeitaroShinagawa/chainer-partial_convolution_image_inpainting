@@ -16,15 +16,14 @@ class place2_train(datasets_base):
     def __init__(self, dataset_path, mask_path, flip=1, resize_to=-1, crop_to=-1):
         super(place2_train, self).__init__(flip=flip, resize_to=resize_to, crop_to=crop_to)
         self.dataset_path = dataset_path
-        self.trainAkey = glob.glob(dataset_path + "*/*/*.jpg")
-        self.maskkey = glob.glob(mask_path + "/*.bmp") #mask_path = mask/128/
+        self.trainAkey = glob.glob(dataset_path + "/*/*/*.jpg") #data_path = "yourpath/place2/data_256"
+        self.maskkey = glob.glob(mask_path + "/*.bmp") #mask_path = "mask/128"
 
     def __len__(self):
         return len(self.trainAkey)
 
     def do_resize(self, img):
         img = cv2.resize(img, (280, 336), interpolation=cv2.INTER_AREA)
-        #img = cv2.resize(img, (140, 168), interpolation=cv2.INTER_AREA)
         return img
 
     def do_random_crop(self, img, crop_to=256):
@@ -50,12 +49,11 @@ class place2_train(datasets_base):
     def get_example(self, i):
         np.random.seed(None)
         idA = self.trainAkey[np.random.randint(0,len(self.trainAkey))]
-        #idA = self.trainAkey[0] use one example
         
-        idM = self.maskkey[np.random.randint(0,len(self.maskkey))][:len(self.trainAkey)]
+        idM = self.maskkey[np.random.randint(0,len(self.maskkey))]
 
         img = cv2.imread(idA, cv2.IMREAD_COLOR)
-        img = self.do_augmentation(img) #should be crop_to=-1
+        img = self.do_augmentation(img) 
         img = self.preprocess_image(img)
         
         mask = cv2.imread(idM, cv2.IMREAD_GRAYSCALE)
@@ -73,9 +71,7 @@ class place2_test(datasets_base):
         return len(self.trainAkey)
 
     def do_resize(self, img):
-        #print(img.shape)
         img = cv2.resize(img, (280, 336), interpolation=cv2.INTER_AREA)
-        #print(img.shape)
         return img
 
     def do_random_crop(self, img, crop_to=256):
@@ -98,12 +94,11 @@ class place2_test(datasets_base):
     def get_example(self, i):
         np.random.seed(None)
         idA = self.trainAkey[np.random.randint(0,len(self.trainAkey))]
-        #idA = self.trainAkey[0] use one example
         
-        idM = self.maskkey[np.random.randint(0,len(self.maskkey))][:len(self.trainAkey)]
+        idM = self.maskkey[np.random.randint(0,len(self.maskkey))]
 
         img = cv2.imread(idA, cv2.IMREAD_COLOR)
-        img = self.do_augmentation(img) #should be crop_to=-1
+        img = self.do_augmentation(img)
         img = self.preprocess_image(img)
 
         mask = cv2.imread(idM, cv2.IMREAD_GRAYSCALE)

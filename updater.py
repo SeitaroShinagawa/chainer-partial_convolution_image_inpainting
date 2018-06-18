@@ -15,9 +15,9 @@ def calc_loss_perceptual(hout_dict,hcomp_dict,hgt_dict):
     layers = list(hout_dict.keys())
     layer_name =  layers[0]
     loss = F.mean_absolute_error(hout_dict[layer_name],hgt_dict[layer_name])
-    loss += F.mean_absolute_error(hout_dict[layer_name],hgt_dict[layer_name])
+    loss += F.mean_absolute_error(hcomp_dict[layer_name],hgt_dict[layer_name])
     for layer_name in layers[1:]: 
-        loss += F.mean_absolute_error(hcomp_dict[layer_name],hgt_dict[layer_name])
+        loss += F.mean_absolute_error(hout_dict[layer_name],hgt_dict[layer_name])
         loss += F.mean_absolute_error(hcomp_dict[layer_name],hgt_dict[layer_name])
     return loss
 

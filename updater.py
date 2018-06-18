@@ -65,7 +65,7 @@ def calc_loss_tv(Icomp, mask, xp=np):
     canvas[:,:,:-1,:] += mask.data[:,:,1:,:] #mask up overlap
     canvas[:,:,1:,:] += mask.data[:,:,:-1,:] #mask bottom overlap
     
-    P = Variable(xp.sign(canvas-0.5)*0.5+1.0) #P region (hole mask: 1 pixel dilated region from hole)
+    P = Variable((xp.sign(canvas-0.5)+1.0)*0.5) #P region (hole mask: 1 pixel dilated region from hole)
     return F.mean_absolute_error(P[:,:,:,1:]*Icomp[:,:,:,1:],P[:,:,:,:-1]*Icomp[:,:,:,:-1])+ F.mean_absolute_error(P[:,:,1:,:]*Icomp[:,:,1:,:],P[:,:,:-1,:]*Icomp[:,:,:-1,:]) 
 
 

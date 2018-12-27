@@ -61,10 +61,10 @@ class place2_train(datasets_base):
         return img, mask
 
 class place2_test(datasets_base):
-    def __init__(self, dataset_path, mask_path, resize_to=-1, crop_to=-1):
+    def __init__(self, dataset_path, mask_path, flip=0, resize_to=-1, crop_to=-1):
         super(place2_test, self).__init__(resize_to=resize_to, crop_to=crop_to)
         self.dataset_path = dataset_path
-        self.trainAkey = glob.glob(dataset_path + "*.jpg")
+        self.trainAkey = glob.glob(dataset_path + "/*.jpg")
         self.maskkey = glob.glob(mask_path + "/*.bmp")
 
     def __len__(self):

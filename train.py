@@ -41,7 +41,6 @@ def main():
     parser.add_argument("--flip", type=int, default=1, help='flip images for data augmentation')
     parser.add_argument("--resize_to", type=int, default=256, help='resize the image to')
     parser.add_argument("--crop_to", type=int, default=256, help='crop the resized image to')
-    parser.add_argument("--load_dataset", default='place2_train', help='load dataset')
     #parser.add_argument("--layer_n", type=int, default=7, help='number of layers')
 
     args = parser.parse_args()
@@ -84,24 +83,20 @@ def main():
 
     opt_model = make_optimizer(model,"Adam",args.learning_rate)
 
-    train_dataset = getattr(datasets, args.load_dataset)(paths.train_place2,mask_path="mask/256",flip=args.flip, resize_to=args.resize_to, crop_to=args.crop_to)
+    train_dataset = getattr(datasets, "place2_train")(paths.train_place2, mask_path="mask/256", flip=args.flip, resize_to=args.resize_to, crop_to=args.crop_to)
     train_iter = chainer.iterators.MultiprocessIterator(
         train_dataset, args.batch_size, n_processes=4)
 
     #val_dataset = getattr(datasets, args.load_dataset)(flip=0, resize_to=args.resize_to, crop_to=args.crop_to)
-    #val_iter = chainer.iterators.MultiprocessIterator(
-    #    val_dataset, args.batchsize, n_processes=4)
-
-    #test_dataset = horse2zebra_Dataset_train(flip=args.flip, resize_to=args.resize_to, crop_to=args.crop_to)
-
-    test_iter = chainer.iterators.SerialIterator(train_dataset, 8)
+    val_dataset = getattr(datasets, "place2_test")(paths.val_place2, mask_path="mask/256", flip=0, resize_to=args.resize_to, crop_to=args.crop_to)
+    val_iter = chainer.iterators.SerialIterator(val_dataset, 8)
 
     # Set up a trainer
     updater = Updater(
         models=(vgg, model),
         iterator={
             'main': train_iter,
-            'test': test_iter
+            'test': val_iter
             },
         optimizer={
             'model': opt_model,

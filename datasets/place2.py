@@ -92,10 +92,9 @@ class place2_test(datasets_base):
         return img
 
     def get_example(self, i):
-        np.random.seed(None)
-        idA = self.trainAkey[np.random.randint(0,len(self.trainAkey))]
+        idA = self.trainAkey[i]
         
-        idM = self.maskkey[np.random.randint(0,len(self.maskkey))]
+        idM = self.maskkey[i]
 
         img = cv2.imread(idA, cv2.IMREAD_COLOR)
         img = self.do_augmentation(img)

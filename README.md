@@ -1,5 +1,13 @@
+# Short notice for visiters (wrote 2020.10.27)
+If you get interested in this repository, I recommend you to see Nvidia's official Pytorch implementation.  
+https://nv-adlr.github.io/publication/partialconv-inpainting
+
+- This repository is implemented by Chainer which is no longer supported now.  
+- Pytorch is a very similar framework to Chainer and is one of the major deep learning framework.
+
 # chainer-partial_convolution_image_inpainting
 Reproduction of Nvidia image inpainting paper "Image Inpainting for Irregular Holes Using Partial Convolutions" https://arxiv.org/abs/1804.07723
+
 
 1,000 iteration results  (completion, output, mask) "completion" represents the input images whose masked pixels are replaced with the corresonded pixels of the output images 
 <img src="imgs/iter_1000.jpg" alt="iter_1000.jpg" title="iter_1000.jpg" width="768" height="512">
